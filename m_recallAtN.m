@@ -24,7 +24,7 @@ function [res, recalls, recalls_m]= m_recallAtN(searcher, nQueries, isPos, ns, p
     show_output = m_config.show_output;  %test the boxes
     dataset_path = m_config.datasets_path; 
     save_path = m_config.save_path; 
-    
+    datasets_box_path = m_config.datasets_box_path;
     
     evalProg= tic;
     
@@ -49,7 +49,7 @@ function [res, recalls, recalls_m]= m_recallAtN(searcher, nQueries, isPos, ns, p
 
     %% Load m Model
      if ~(m_config.create_Model)
-        g_mdl =  load(m_config.save_m_data_mdl);
+%        g_mdl =  load(m_config.save_m_data_mdl);
      end
     %% Start
     for iTestSample= iTestSample_Start:length(toTest)
@@ -97,17 +97,16 @@ function [res, recalls, recalls_m]= m_recallAtN(searcher, nQueries, isPos, ns, p
         
         %% Leo START
                 
-        qimg_path = strcat(dataset_path,'/',m_config.query_folder, '/', db.qImageFns{iTestSample, 1});  
+        qimg_path = strcat(dataset_path,m_config.query_folder, '/', db.qImageFns{iTestSample, 1});  
         q_img = strcat(save_path,'/', db.qImageFns{iTestSample, 1});  
         q_feat = strrep(q_img,'.jpg','.mat');
-
             
         if exist(q_feat, 'file')
              x_q_feat = load(q_feat);
              x_q_feat_all(iTestSample) = struct ('x_q_feat', x_q_feat); 
         else
 
-            q_feat = m_estimate_box_features(qimg_path,model,db,q_feat,net,num_box,total_top,dataset_path,ids,iTestSample);
+            q_feat = m_edge_box_features(qimg_path,datasets_box_path,model,db,q_feat,net,num_box,total_top,dataset_path,ids,iTestSample,m_config);
             x_q_feat = load(q_feat);
 
         end
@@ -276,11 +275,11 @@ function [res, recalls, recalls_m]= m_recallAtN(searcher, nQueries, isPos, ns, p
                 %store ds_pre
                 ds_new_top(i,1) = D_diff;
                 
-                D_diff_predict = predict(g_mdl.mdls{1},m_pridict);
-                ds_new_top(i,2) = D_diff+2*(exp(-1.*D_diff_predict));
+             %   D_diff_predict = predict(g_mdl.mdls{1},m_pridict);
+              %  ds_new_top(i,2) = D_diff+2*(exp(-1.*D_diff_predict));
                %ds_new_top(i,2) = abs(D_diff/D_diff_predict);
-                D_diff_predict = predict(g_mdl.mdls{2},m_pridict);
-                ds_new_top(i,3) = D_diff+2*(exp(-1.*D_diff_predict));
+               % D_diff_predict = predict(g_mdl.mdls{2},m_pridict);
+                %ds_new_top(i,3) = D_diff+2*(exp(-1.*D_diff_predict));
                %ds_new_top(i,3) = abs(D_diff/D_diff_predict);
 
 

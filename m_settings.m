@@ -3,12 +3,12 @@ function m_opts= m_settings(paths)
  
     iTestSample_Start= 1; startfrom = 1;  show_output = 0; 
     m_mode = 'training' ; %'training' , 'test'
-    proj = 'm_v12'; %'vt-rgb'
+    proj = 'vt'; %'vt-rgb'
     f_dimension = 4096;% '512' or '4096'
     pre_net = 'vd16';% 'vd16', 'caffe'
     net_dataset = 'pitts30k'; % tokyoTM', 'pitts30k' 
     job_net = strcat(pre_net,'_',net_dataset); 
-    job_datasets = 'tokyo247';  %'tokyo247' 'pitts30k' 'oxford' , 'paris', 'paris-vt-rgb', 'pitts30k-vt-rgb
+    job_datasets = 'pitts30k-vt';  %'tokyo247' 'tokyo247-vt-3', 'pitts30k' 'oxford' , 'tokyo247-vt', 'paris-vt-rgb', 'pitts30k-vt
     m_on = 'paris'; % m model using Paris dataset. 'ox5k' or 'paris'
     m_directory = '/home/leo/mega/maqbool-data/';
     %%
@@ -29,11 +29,19 @@ function m_opts= m_settings(paths)
         datasets_path = paths.dsetRootPitts;
         query_folder = 'queries';
 
-    elseif strcmp(job_datasets,'pitts30k-vt-rgb')
-        dbTest= dbPitts('30k','test');
-        datasets_path = '/mnt/0287D1936157598A/docker_ws/datasets/NetvLad/view-tags/Pittsburgh_Viewtag_3_rgb'; %% PC
-        query_folder = 'queries';
+    elseif strcmp(job_datasets,'tokyo247-vt')
+        dbTest= dbTokyo247();
+        datasets_path = paths.dsetRootTokyo247; %% PC
+        datasets_box_path = '/home/leo/docker_ws/datasets/Test_247_Tokyo_GSV/view-tags/Test_247_Tokyo_GSV_1_e_boxes'; 
+        query_folder = 'query';
 
+    elseif strcmp(job_datasets,'pitts30k-vt')
+        dbTest= dbPitts('30k','test');
+        datasets_path = '/home/leo/docker_ws/datasets/Pittsburgh_Viewtag_1_e'; %% PC
+        datasets_box_path = '/home/leo/docker_ws/datasets/Pittsburgh_Viewtag_1_e'; %% PC
+
+        query_folder = 'queries';    
+        
     elseif strcmp(job_datasets,'tokyo247')
         dbTest= dbTokyo247();
         datasets_path = paths.dsetRootTokyo247; 
@@ -75,6 +83,7 @@ function m_opts= m_settings(paths)
                 'proj',                     proj, ...
                 'job_net',                  job_net, ...
                 'datasets_path',            datasets_path, ...
+                'datasets_box_path',        datasets_box_path, ...
                 'save_path',                save_path, ...
                 'save_results',             save_results, ...
                 'save_path_all',            save_path_all, ...

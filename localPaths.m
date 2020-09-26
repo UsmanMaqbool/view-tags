@@ -19,11 +19,11 @@ function paths= localPaths()
     paths.dsetSpecDir= '/home/leo/docker_ws/datasets/datasets-specs';
     
     % --- dataset locations
-    paths.dsetRootPitts= '/home/leo/docker_ws/datasets/Pittsburgh-all/Pittsburgh/'; % should contain images/ and queries/
+    paths.dsetRootPitts= '/home/leo/docker_ws/datasets/Pittsburgh_Viewtag_1_e/'; % should contain images/ and queries/
     % CLuster
     %paths.dsetRootTokyo247= '/cluster/scratch/mbhutta/Test_247_Tokyo_GSV/'; % should contain images/ and query/
     % XPS
-    paths.dsetRootTokyo247= '/home/leo/docker_ws/datasets/Test_247_Tokyo_GSV/'; % should contain images/ and query/
+    paths.dsetRootTokyo247= '/home/leo/docker_ws/datasets/Test_247_Tokyo_GSV_vt/'; % should contain images/ and query/
     %paths.dsetRootTokyoTM= '/home/leo/docker_ws/datasets/tokyoTimeMachine/'; % should contain images/
     paths.dsetRootTokyoTM= '/home/leo/docker_ws/datasets/tinyTimeMachine/'; % should contain images/
     paths.dsetRootOxford= '/home/leo/docker_ws/datasets/test-oxford/'; % should contain images/ and groundtruth/, and be writable
